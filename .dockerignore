@@ -1,0 +1,10 @@
+*.o
+*.a
+*.md
+lib/**/*.a
+lib/**/*.o
+lib/**/*.so
+test
+.github
+.git
+**/.git
