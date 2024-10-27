@@ -240,7 +240,7 @@ interface Core {
    * Reads a file from the given path into a Uint8Array and returns it.
    * @param [path] The path to the file.
    */
-  read_file(path: string): Uint8Array;
+  export function read_file(path: string): Uint8Array;
   /**
    * Creates/Overwrites a file at the specified path with the given Uint8Array
    * as the contents of the file.
@@ -248,7 +248,7 @@ interface Core {
    * @param {TypedArray}[buffer] The data write to the file.
    * @returns {number} Number of bytes written
    */
-  write_file(
+  export function write_file(
     path: string,
     buffer: Uint8Array,
     flags?: number,
@@ -301,7 +301,7 @@ interface Core {
     mode?: number
   ): number;
 
-  isFile(path: string): boolean;
+  export function isFile(path: string): boolean;
   // conditionally defined props
   loader?: (specifier: string, resource: string) => string;
   sync_loader?: (specifier: string, resource: string) => string;
@@ -368,7 +368,8 @@ interface Core {
 }
 
 // TODO: autogenerate
-interface Runtime {
+type Runtime = typeof import('lo:');
+declare module "lo:" {
   // validate with list from: lo eval 'console.log(`"${Object.getOwnPropertyNames(lo).join(`":unknown;"`)}":unknown;`)'
   moduleCache: Map<string, ReturnType<Runtime['loadModule']>>;
   libCache: Map<string, object>;
@@ -435,53 +436,53 @@ interface Runtime {
     evaluated?: boolean;
     namespace?: object; // module namespace object
   };
-  readMemory(dest: TypedArray, start: number, len: number): void;
-  wrapMemory(start: number, size: number, free?: number): ArrayBuffer;
-  unwrapMemory(buffer: ArrayBuffer): void;
-  ptr<T extends TypedArray>(u8: T): Ptr<T>;
-  register_callback(ptr: number, fn: Function): void;
-  registerCallback: Runtime['register_callback'];
-  setModuleCallbacks(
+  export function readMemory(dest: TypedArray, start: number, len: number): void;
+  export function wrapMemory(start: number, size: number, free?: number): ArrayBuffer;
+  export function unwrapMemory(buffer: ArrayBuffer): void;
+  export function ptr<T extends TypedArray>(u8: T): Ptr<T>;
+  export function register_callback(ptr: number, fn: Function): void;
+  export var registerCallback: Runtime['register_callback'];
+  export function setModuleCallbacks(
     on_module_load: Function,
     on_module_instantiate: Function
   ): void;
 
-  utf8EncodeIntoPtr(str: string, ptr: number): number;
-  runScript(source: string, path: string /* resource name */): void;
-  pumpMessageLoop(): void;
-  readMemoryAtOffset(
+  export function utf8EncodeIntoPtr(str: string, ptr: number): number;
+  export function runScript(source: string, path: string /* resource name */): void;
+  export function pumpMessageLoop(): void;
+  export function readMemoryAtOffset(
     u8: TypedArray,
     start: number,
     size: number,
     offset: number
   ): void;
-  setFlags(str: string): void;
-  getMeta: unknown;
+  export function setFlags(str: string): void;
+  export var getMeta: unknown;
 
-  setenv: Core['setenv'];
-  getcwd(): string;
-  run_script: Runtime['runScript'];
-  bindings: Runtime['libraries'];
-  evaluate_module: Runtime['evaluateModule'];
-  get_address: Runtime['getAddress'];
-  get_meta: Runtime['getMeta'];
-  latin1_decode: Runtime['latin1Decode'];
-  lib_cache: Runtime['libCache'];
-  load_module: Runtime['loadModule'];
-  module_cache: Runtime['moduleCache'];
-  next_tick: Runtime['nextTick'];
-  pump_message_loop: Runtime['pumpMessageLoop'];
-  read_memory: Runtime['readMemory'];
-  read_memory_at_offset: Runtime['readMemoryAtOffset'];
-  require_cache: Runtime['requireCache'];
-  run_microtasks: Runtime['runMicroTasks'];
-  set_flags: Runtime['setFlags'];
-  set_module_callbacks: Runtime['setModuleCallbacks'];
-  unwrap_memory: Runtime['unwrapMemory'];
-  utf8_encode: Runtime['utf8Encode'];
-  utf8_encode_into: Runtime['utf8EncodeInto'];
-  utf8_encode_into_ptr: Runtime['utf8EncodeIntoPtr'];
-  utf8_encode_into_at_offset: Runtime['utf8EncodeIntoAtOffset'];
-  utf8_length: Runtime['utf8Length'];
-  wrap_memory: Runtime['wrapMemory'];
+  export var setenv: Core['setenv'];
+  export function getcwd(): string;
+  export var run_script: Runtime['runScript'];
+  export var bindings: Runtime['libraries'];
+  export var evaluate_module: Runtime['evaluateModule'];
+  export var get_address: Runtime['getAddress'];
+  export var get_meta: Runtime['getMeta'];
+  export var latin1_decode: Runtime['latin1Decode'];
+  export var lib_cache: Runtime['libCache'];
+  export var load_module: Runtime['loadModule'];
+  export var module_cache: Runtime['moduleCache'];
+  export var next_tick: Runtime['nextTick'];
+  export var pump_message_loop: Runtime['pumpMessageLoop'];
+  export var read_memory: Runtime['readMemory'];
+  export var read_memory_at_offset: Runtime['readMemoryAtOffset'];
+  export var require_cache: Runtime['requireCache'];
+  export var run_microtasks: Runtime['runMicroTasks'];
+  export var set_flags: Runtime['setFlags'];
+  export var set_module_callbacks: Runtime['setModuleCallbacks'];
+  export var unwrap_memory: Runtime['unwrapMemory'];
+  export var utf8_encode: Runtime['utf8Encode'];
+  export var utf8_encode_into: Runtime['utf8EncodeInto'];
+  export var utf8_encode_into_ptr: Runtime['utf8EncodeIntoPtr'];
+  export var utf8_encode_into_at_offset: Runtime['utf8EncodeIntoAtOffset'];
+  export var utf8_length: Runtime['utf8Length'];
+  export var wrap_memory: Runtime['wrapMemory'];
 }
