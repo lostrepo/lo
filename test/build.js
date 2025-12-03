@@ -5,18 +5,13 @@ const { assert, core, colors, getenv, load } = lo
 const { AD, AY, AC } = colors
 const { os, unlink } = core
 
-let CC = getenv('CC') || 'clang'
-let CXX = getenv('CXX') || 'clang++'
-let LINK = getenv('LINK') || 'clang++'
-if (os === 'linux') {
-  CC = getenv('CC') || 'gcc'
-  CXX = getenv('CXX') || 'g++'
-  LINK = getenv('LINK') || 'g++'
-}
+const CC = getenv('CC') || 'clang'
+const CXX = getenv('CXX') || 'clang++'
+const LINK = getenv('LINK') || 'clang++'
 
 const bindings = [
   'bestlines',
-  'boringssl',
+//  'boringssl',
   'cfzlib',
   'core',
   'curl',
@@ -79,8 +74,8 @@ for (const name of bindings) {
 }
 
 console.log(`${AY}building runtimes${AD}`)
-build_runtime('build_test_lo', 'runtimes/lo')
-build_runtime('build_test_base', 'runtimes/base')
+build_runtime('build_test_lo', 'runtime/lo')
+build_runtime('build_test_base', 'runtime/base')
 console.log(`${AY}deleting runtimes${AD}`)
 assert(isFile('build_test_lo')) && assert(unlink('build_test_lo') === 0)
 assert(isFile('build_test_base')) && assert(unlink('build_test_base') === 0)
