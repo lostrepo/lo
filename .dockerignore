@@ -4,6 +4,9 @@
 lib/**/*.a
 lib/**/*.o
 lib/**/*.so
+scratch/lib/*.a
+scratch/lib/*.o
+scratch/lib/*.so
 test
 .github
 .git
