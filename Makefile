@@ -24,6 +24,10 @@ else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
 		os=linux
+		CC=gcc
+		CXX=g++
+		LINK=g++
+		WARN=-Werror -Wpedantic -Wall -Wextra -Wno-unused-parameter -Wno-comment
 		LARGS+=-s -static-libgcc -fuse-ld=lld
 	else ifeq ($(UNAME_S),Darwin)
 		os=mac
@@ -62,7 +66,7 @@ endif
 
 v8/libv8_monolith.a: v8 ## download the v8 static libary for linux/macos
 	curl -C - -L -o v8/libv8_monolith.a.gz https://github.com/just-js/v8/releases/download/${V8_VERSION}/libv8_monolith-${os}-${ARCH}.a.gz
-	gzip -d v8/libv8_monolith.a.gz
+	gzip -df v8/libv8_monolith.a.gz
 	rm -f v8/libv8_monolith.a.gz
 
 v8/v8_monolith.lib: ## download the v8 static library for windows
@@ -79,7 +83,7 @@ else
 	$(CC) ${CARGS} builtins.S -o builtins.o
 endif
 
-${RUNTIME}.o: v8 ## compile runtime into an object file 
+${RUNTIME}.o: v8 ## compile runtime into an object file
 	$(CXX) ${CCARGS} ${OPT} -DRUNTIME='"${RUNTIME}"' -DVERSION='"${VERSION}"' ${V8_FLAGS} -I./v8 -I./v8/include ${WARN} ${RUNTIME}.cc
 
 ${RUNTIME}: v8 v8/libv8_monolith.a main.js ${BINDINGS} builtins.o main.o ${RUNTIME}.o ## link the runtime for linux/macos
@@ -103,7 +107,7 @@ mach.o: lib/mach/mach.cc v8 ## build the mach binding
 core.o: lib/core/core.cc v8 ## build the core binding
 	$(CXX) -fPIC $(CCARGS) $(OPT) -I. -I./v8 -I./v8/include $(WARN) ${V8_FLAGS} -o core.o lib/core/core.cc
 
-core.obj: core.cc v8 
+core.obj: core.cc v8
 	cl /EHsc /std:c++20 /I. /I./v8 /I./v8/include /c core.cc
 
 curl.o: lib/curl/curl.cc v8 ## build the curl binding
