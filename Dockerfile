@@ -13,11 +13,13 @@ ENV PATH=/opt/rh/gcc-toolset-13/root/bin:$PATH
 ENV LD_LIBRARY_PATH=/opt/rh/gcc-toolset-13/root/lib64:$LD_LIBRARY_PATH
 COPY . /lo
 WORKDIR /lo
-RUN make clean
-RUN gcc --version && ld.lld --version && make lo
+ENV WARN="-Werror -Wpedantic -Wall -Wextra -Wno-unused-parameter"
+ENV LO_WARN=$WARN
 ENV LO_HOME=/lo
 ENV PATH=$LO_HOME/:$PATH;
+RUN make clean
+RUN gcc --version && ld.lld --version && make lo
 WORKDIR /lo/scratch
 RUN lo eval "console.log(`hello dock`)"
-RUN lo build runtime scratch
+RUN lo build runtime scratch && ls -la /lo/scratch && /lo/scratch/scratch
 CMD ["/bin/bash"]
