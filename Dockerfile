@@ -17,6 +17,12 @@ ENV WARN="-Werror -Wpedantic -Wall -Wextra -Wno-unused-parameter"
 ENV LO_WARN=$WARN
 ENV LO_HOME=/lo
 ENV PATH=$LO_HOME/:$PATH;
+RUN find /lo/lib . -name "*.a" -type f -delete
+RUN find /lo/lib . -name "*.o" -type f -delete
+RUN find /lo/lib . -name "*.so" -type f -delete
+RUN find /lo/scratch . -name "*.a" -type f -delete
+RUN find /lo/scratch . -name "*.o" -type f -delete
+RUN find /lo/scratch . -name "*.so" -type f -delete
 RUN make clean
 RUN gcc --version && ld.lld --version && make lo
 WORKDIR /lo/scratch
