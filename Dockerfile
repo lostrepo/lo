@@ -27,5 +27,5 @@ RUN make clean
 RUN gcc --version && ld.lld --version && make lo
 WORKDIR /lo/scratch
 RUN lo eval "console.log(`hello dock`)"
-RUN lo build runtime scratch && ls -la /lo/scratch && /lo/scratch/scratch
+RUN lo build runtime scratch
 CMD ["/bin/bash"]
