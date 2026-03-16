@@ -39,3 +39,4 @@ lib/lines/linenoise.c
 zero
 dist
 *.pdb
+!scratch.build.sh
