@@ -1,3 +1,12 @@
+## Experimental typegen branch
+#### Type your project folder
+- mv lib/test.js into lo home or /my_project_dir_path
+- `cd /my_project_dir_path && lo lib/test.js > globals.d.ts`
+Import aliased modules typegen needs to be built-in in module loader
+Right now doesn't make sense to support 2 versions of typegen for import aliased modules and flat interfaces since default module loader doesn't provide any aliased import for lo.load/lo.library calls
+
+# Original README below
+
 # prerequisites
 
 ## linux/macos
